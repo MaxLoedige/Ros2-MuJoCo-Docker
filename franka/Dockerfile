@@ -5,19 +5,39 @@ ARG MUJOCO_VERSION=3.2.5
 ARG BRANCH=main
 
 WORKDIR /root/workdir
-COPY ./src/mujoco_ros2_control /root/workdir/src/mujoco_ros2_control
-COPY ./franka/src/mujoco_ros2_control_examples /root/workdir/src/mujoco_ros2_control_examples
-COPY ./franka/src/franka_ros2 /root/workdir/src/franka_ros2
+
+# TODO make the first part of the path an ARG
+COPY ./demos/Ros2-MuJoCo-Docker/src/mujoco_ros2_control /root/workdir/src/mujoco_ros2_control
+COPY ./demos/Ros2-MuJoCo-Docker/franka/src/mujoco_ros2_control_examples /root/workdir/src/mujoco_ros2_control_examples
+COPY ./demos/Ros2-MuJoCo-Docker/franka/src/franka_ros2 /root/workdir/src/franka_ros2
 
 RUN apt-get update && apt-get upgrade -y
-RUN apt-get install -y python3-pip wget
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libosmesa6-dev \
+    libgl1-mesa-glx \
+    libglfw3-dev \
+    libglew-dev \
+    patchelf \
+    unzip -y \
+    libxrandr2 \
+    libxrandr-dev\
+    libxinerama1 \
+    libxcursor1 \
+    wget \
+    libxinerama-dev \ 
+    libxcursor-dev \
+    libxi-dev \
+    protobuf-compiler libprotobuf-dev \
+	python3-pip \
+    && rm -rf /var/lib/apt/lists/*
+
 ENV SHELL /bin/bash
 
 RUN pip3 install xacro
 
 # install mujoco
 ENV MUJOCO_VERSION $MUJOCO_VERSION
-RUN apt-get install -y libglfw3-dev
+# RUN apt-get install -y libglfw3-dev
 # RUN wget https://github.com/google-deepmind/mujoco/releases/download/3.2.5/mujoco-3.2.5-linux-x86_64.tar.gz
 RUN wget https://github.com/google-deepmind/mujoco/releases/download/$MUJOCO_VERSION/mujoco-$MUJOCO_VERSION-linux-x86_64.tar.gz
 RUN mkdir -p /root/workdir/mujoco
@@ -90,6 +110,6 @@ RUN cd /root/workdir/ \
     && sudo rm -rf /var/lib/apt/lists/*
 
 
-WORKDIR /root/workdir/
+
 
 RUN bash -c "source ~/.bashrc"

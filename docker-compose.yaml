@@ -29,6 +29,31 @@ services:
       - './franka/src/mujoco_ros2_control_examples:/root/workdir/src/mujoco_ros2_control_examples'
       - './franka/src/franka_ros2:/root/workdir/src/franka_ros2'
 
+  ros-controller:
+    build: ros:humble
+    # networks:
+    #   - ros
+    
+    container_name: ros-controller
+    stdin_open: true # docker run -i
+    tty: true # docker run -t 
+    privileged: true
+
+    environment:
+      - 'DISPLAY=:0'
+      - 'QT_X11_NO_MITSHM=1'
+      - 'XDG_RUNTIME_DIR=/mnt/wslg/runtime-dir'
+      - 'PULSE_SERVER=/mnt/wslg/PulseServer'
+      - 'WAYLAND_DISPLAY=wayland-0'
+
+    volumes:
+      - /run/desktop/mnt/host/wslg/.X11-unix:/tmp/.X11-unix
+      - /run/desktop/mnt/host/wslg:/mnt/wslg
+
+      - './src/mujoco_ros2_control:/root/workdir/src/mujoco_ros2_control'
+      - './franka/src/mujoco_ros2_control_examples:/root/workdir/src/mujoco_ros2_control_examples'
+      - './franka/src/franka_ros2:/root/workdir/src/franka_ros2'
+
   # ros-mujoco-base:
   #   build:
   #     dockerfile: base/Dockerfile
