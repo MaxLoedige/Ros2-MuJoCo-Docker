@@ -1,0 +1,68 @@
+<mujoco model="Pot">
+
+  <default>
+    <default class="visual">
+      <geom group="2" type="mesh" contype="0" conaffinity="0"/>
+    </default>
+    <default class="collision">
+      <geom group="2"/>
+    </default>
+  </default>
+
+  <!-- <extension>
+    <plugin plugin="mujoco.sdf.sdflib">
+      <instance name="sdf">
+        <config key="aabb" value="0"/>
+      </instance>
+    </plugin>
+  </extension> -->
+
+  <asset>
+    <texture type="2d" name="texture" file="texture.png"/>
+    <material name="Material.002" texture="texture" specular="0.5" shininess="0.25"/>
+    <mesh file="Pot.obj"/>
+    <!-- <mesh name="PotColl" file ="PotCollision.obj">
+      <plugin instance="sdf"/>
+    </mesh> -->
+
+  </asset>
+
+  <worldbody>
+    <body name="Pot">
+      <geom material="Material.002" mesh="Pot" class="visual"/>
+      <!-- <geom mesh="Pot" class="collision"/> -->
+
+      <!-- the gap= propertie makes it inactive to collision but still report contacts -->
+      <geom name="In_Pot" type="cylinder" size="0.11 0.07" pos="0 0 -0.03" contype="1" conaffinity="1" group="3"
+          gap="0.55" rgba="1 0 0 0.5"
+      />
+
+
+      <geom type="cylinder" pos="0 0 -0.098" size="0.105 0.003" />
+          <!-- solref="0 0" solimp="0 0 0"
+          margin="0" friction="0 0 0"  -->
+      <body name="hollow_cylinder" pos="0 0 -0.03">
+        <geom type="box" size="0.0050 0.024 0.07" pos="0.1100 0.0000 0.0000" quat="1.000000 0.000000 0.000000 0.000000" rgba="0.6 0.6 0.6 1" contype="1" conaffinity="1"/>
+        <geom type="box" size="0.0050 0.024 0.07" pos="0.1016 0.0421 0.0000" quat="0.980785 0.000000 0.000000 0.195090" rgba="0.6 0.6 0.6 1" contype="1" conaffinity="1"/>
+        <geom type="box" size="0.0050 0.024 0.07" pos="0.0778 0.0778 0.0000" quat="0.923880 0.000000 0.000000 0.382683" rgba="0.6 0.6 0.6 1" contype="1" conaffinity="1"/>
+        <geom type="box" size="0.0050 0.024 0.07" pos="0.0421 0.095 0.0000" quat="0.831470 0.000000 0.000000 0.555570" rgba="0.6 0.6 0.6 1" contype="1" conaffinity="1"/>
+        <geom type="box" size="0.0050 0.024 0.07" pos="0.0000 0.0990 0.0000" quat="0.707107 0.000000 0.000000 0.707107" rgba="0.6 0.6 0.6 1" contype="1" conaffinity="1"/>
+        <geom type="box" size="0.0050 0.024 0.07" pos="-0.0421 0.095 0.0000" quat="0.555570 0.000000 0.000000 0.831470" rgba="0.6 0.6 0.6 1" contype="1" conaffinity="1"/>
+        <geom type="box" size="0.0050 0.024 0.07" pos="-0.0778 0.0778 0.0000" quat="0.382683 0.000000 0.000000 0.923880" rgba="0.6 0.6 0.6 1" contype="1" conaffinity="1"/>
+        <geom type="box" size="0.0050 0.024 0.07" pos="-0.1016 0.0421 0.0000" quat="0.195090 0.000000 0.000000 0.980785" rgba="0.6 0.6 0.6 1" contype="1" conaffinity="1"/>
+        <geom type="box" size="0.0050 0.024 0.07" pos="-0.1100 0.0000 0.0000" quat="0.000000 0.000000 0.000000 1.000000" rgba="0.6 0.6 0.6 1" contype="1" conaffinity="1"/>
+        <geom type="box" size="0.0050 0.024 0.07" pos="-0.1016 -0.0421 0.0000" quat="-0.195090 0.000000 0.000000 0.980785" rgba="0.6 0.6 0.6 1" contype="1" conaffinity="1"/>
+        <geom type="box" size="0.0050 0.024 0.07" pos="-0.0778 -0.0778 0.0000" quat="-0.382683 0.000000 0.000000 0.923880" rgba="0.6 0.6 0.6 1" contype="1" conaffinity="1"/>
+        <geom type="box" size="0.0050 0.024 0.07" pos="-0.0421 -0.095 0.0000" quat="-0.555570 0.000000 0.000000 0.831470" rgba="0.6 0.6 0.6 1" contype="1" conaffinity="1"/>
+        <geom type="box" size="0.0050 0.024 0.07" pos="-0.0000 -0.0990 0.0000" quat="-0.707107 0.000000 0.000000 0.707107" rgba="0.6 0.6 0.6 1" contype="1" conaffinity="1"/>
+        <geom type="box" size="0.0050 0.024 0.07" pos="0.0421 -0.095 0.0000" quat="-0.831470 0.000000 0.000000 0.555570" rgba="0.6 0.6 0.6 1" contype="1" conaffinity="1"/>
+        <geom type="box" size="0.0050 0.024 0.07" pos="0.0778 -0.0778 0.0000" quat="-0.923880 0.000000 0.000000 0.382683" rgba="0.6 0.6 0.6 1" contype="1" conaffinity="1"/>
+        <geom type="box" size="0.0050 0.024 0.07" pos="0.1016 -0.0421 0.0000" quat="-0.980785 0.000000 0.000000 0.195090" rgba="0.6 0.6 0.6 1" contype="1" conaffinity="1"/>
+      </body>
+      <!-- <geom type="sdf" name="Pot_collision" mesh="PotColl" material="Material.002" class="collision">
+        <plugin instance="sdf"/>
+      </geom> -->
+
+    </body>
+  </worldbody>
+</mujoco>

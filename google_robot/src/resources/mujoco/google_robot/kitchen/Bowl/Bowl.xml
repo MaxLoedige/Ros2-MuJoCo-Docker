@@ -1,0 +1,54 @@
+<mujoco model="Bowl">
+
+  <default>
+    <geom solref="0.01 1" solimp=".95 .99 .0001" condim="1"/>
+    <default class="visual">
+      <geom group="2" type="mesh" contype="0" conaffinity="0"/>
+    </default>
+    <default class="collision">
+      <geom group="3"/>
+    </default>
+  </default>
+
+
+
+  <asset>
+    <material name="White_Gloss" specular="0.5" shininess="0.36" rgba="0.8 0.8 0.8 0.50000"/>
+    <mesh file="Bowl.obj"/>
+  </asset>
+
+  <worldbody>
+
+    <!-- <body pos="0 0 0.105">
+    </body> -->
+
+  <body name="Bowl">
+    <geom type="mesh"  material="White_Gloss" mesh="Bowl" class="visual" quat="0.707 0.707 0 0"/>
+    <geom type="cylinder" pos="0 0 0.01" size="0.09 0.003" />
+    <geom type="cylinder" pos="0 0 0.003" size="0.06 0.003" />
+
+
+    <body name="hollow_cylinder" pos="0 0 0.04">
+      <geom type="box" size="0.002 0.0205 0.0200" pos="0.0998 0.0000 -0.0100" quat="0.965926 0.000000 0.258819 0.000000" rgba="0.6 0.6 0.6 1" contype="1" conaffinity="1"/>
+      <geom type="box" size="0.002 0.0205 0.0200" pos="0.0922 0.0382 -0.0100" quat="0.947366 -0.050493 0.253846 0.188443" rgba="0.6 0.6 0.6 1" contype="1" conaffinity="1"/>
+      <geom type="box" size="0.002 0.0205 0.0200" pos="0.0706 0.0706 -0.0100" quat="0.892399 -0.099046 0.239118 0.369644" rgba="0.6 0.6 0.6 1" contype="1" conaffinity="1"/>
+      <geom type="box" size="0.002 0.0205 0.0200" pos="0.0382 0.0922 -0.0100" quat="0.803138 -0.143792 0.215200 0.536640" rgba="0.6 0.6 0.6 1" contype="1" conaffinity="1"/>
+      <geom type="box" size="0.002 0.0205 0.0200" pos="0.0000 0.0998 -0.0100" quat="0.683013 -0.183013 0.183013 0.683013" rgba="0.6 0.6 0.6 1" contype="1" conaffinity="1"/>
+      <geom type="box" size="0.002 0.0205 0.0200" pos="-0.0382 0.0922 -0.0100" quat="0.536640 -0.215200 0.143792 0.803138" rgba="0.6 0.6 0.6 1" contype="1" conaffinity="1"/>
+      <geom type="box" size="0.002 0.0205 0.0200" pos="-0.0706 0.0706 -0.0100" quat="0.369644 -0.239118 0.099046 0.892399" rgba="0.6 0.6 0.6 1" contype="1" conaffinity="1"/>
+      <geom type="box" size="0.002 0.0205 0.0200" pos="-0.0922 0.0382 -0.0100" quat="0.188443 -0.253846 0.050493 0.947366" rgba="0.6 0.6 0.6 1" contype="1" conaffinity="1"/>
+      <geom type="box" size="0.002 0.0205 0.0200" pos="-0.0998 0.0000 -0.0100" quat="0.000000 -0.258819 0.000000 0.965926" rgba="0.6 0.6 0.6 1" contype="1" conaffinity="1"/>
+      <geom type="box" size="0.002 0.0205 0.0200" pos="-0.0922 -0.0382 -0.0100" quat="-0.188443 -0.253846 -0.050493 0.947366" rgba="0.6 0.6 0.6 1" contype="1" conaffinity="1"/>
+      <geom type="box" size="0.002 0.0205 0.0200" pos="-0.0706 -0.0706 -0.0100" quat="-0.369644 -0.239118 -0.099046 0.892399" rgba="0.6 0.6 0.6 1" contype="1" conaffinity="1"/>
+      <geom type="box" size="0.002 0.0205 0.0200" pos="-0.0382 -0.0922 -0.0100" quat="-0.536640 -0.215200 -0.143792 0.803138" rgba="0.6 0.6 0.6 1" contype="1" conaffinity="1"/>
+      <geom type="box" size="0.002 0.0205 0.0200" pos="-0.0000 -0.0998 -0.0100" quat="-0.683013 -0.183013 -0.183013 0.683013" rgba="0.6 0.6 0.6 1" contype="1" conaffinity="1"/>
+      <geom type="box" size="0.002 0.0205 0.0200" pos="0.0382 -0.0922 -0.0100" quat="-0.803138 -0.143792 -0.215200 0.536640" rgba="0.6 0.6 0.6 1" contype="1" conaffinity="1"/>
+      <geom type="box" size="0.002 0.0205 0.0200" pos="0.0706 -0.0706 -0.0100" quat="-0.892399 -0.099046 -0.239118 0.369644" rgba="0.6 0.6 0.6 1" contype="1" conaffinity="1"/>
+      <geom type="box" size="0.002 0.0205 0.0200" pos="0.0922 -0.0382 -0.0100" quat="-0.947366 -0.050493 -0.253846 0.188443" rgba="0.6 0.6 0.6 1" contype="1" conaffinity="1"/>
+    </body>
+  
+  </body>
+
+  </worldbody>
+
+</mujoco>

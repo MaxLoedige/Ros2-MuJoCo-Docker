@@ -7,3 +7,9 @@
 [submodule "franka/src/franka_ros2"]
 	path = franka/src/franka_ros2
 	url = https://github.com/frankaemika/franka_ros2.git
+[submodule "baxta/baxter_common_ros2"]
+	path = baxta/baxter_common_ros2
+	url = https://github.com/CentraleNantesRobotics/baxter_common_ros2.git
+[submodule "baxta/src/baxter_common_ros2"]
+	path = baxta/src/baxter_common_ros2
+	url = https://github.com/CentraleNantesRobotics/baxter_common_ros2.git

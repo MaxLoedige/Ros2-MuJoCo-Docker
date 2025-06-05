@@ -1,0 +1,12 @@
+# Default initial positions for google_robot's ros2_control fake system
+
+initial_positions:
+  joint_bicep: 0
+  joint_elbow: 0
+  joint_finger_left: 0
+  joint_finger_right: 0
+  joint_forearm: 0
+  joint_gripper: 0
+  joint_shoulder: 0
+  joint_torso: 0
+  joint_wrist: 0

@@ -1,0 +1,21 @@
+<mujoco model="Handarbeitsplatz">
+  <default>
+    <default class="visual">
+      <geom group="2" type="mesh" contype="0" conaffinity="0"/>
+    </default>
+    <default class="collision">
+      <geom group="3" type="mesh"/>
+    </default>
+  </default>
+  <asset>
+    <texture type="2d" name="Texture" file="Texture.png"/>
+    <material name="Texture_Material" texture="Texture" specular="0.5" shininess="0.009803922"/>
+    <mesh file="Handarbeitsplatz.obj"/>
+  </asset>
+  <worldbody>
+    <body name="Handarbeitsplatz">
+      <geom material="Texture_Material" mesh="Handarbeitsplatz" class="visual"/>
+      <geom type="box" size="0.4 0.6 0.72" class="collision"/>
+    </body>
+  </worldbody>
+</mujoco>

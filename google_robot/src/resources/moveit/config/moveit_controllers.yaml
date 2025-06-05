@@ -1,0 +1,31 @@
+# MoveIt uses this configuration for controller management
+
+trajectory_execution:
+  allowed_execution_duration_scaling: 2.0
+  allowed_goal_duration_margin: 1.0
+  allowed_start_tolerance: 0.03
+moveit_controller_manager: moveit_simple_controller_manager/MoveItSimpleControllerManager
+
+moveit_simple_controller_manager:
+  controller_names:
+    - google_arm_controller
+    - google_hand_controller
+
+  google_arm_controller:
+    type: FollowJointTrajectory
+    joints:
+      - joint_torso
+      - joint_shoulder
+      - joint_bicep
+      - joint_elbow
+      - joint_forearm
+      - joint_wrist
+      - joint_gripper
+    action_ns: follow_joint_trajectory
+    default: true
+  google_hand_controller:
+    action_ns: gripper_cmd
+    type: GripperCommand
+    joints:
+      - joint_finger_left
+      - joint_finger_right
