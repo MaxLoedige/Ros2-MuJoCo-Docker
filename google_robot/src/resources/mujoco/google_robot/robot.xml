@@ -226,6 +226,18 @@
     <torque name="ft_sensor_torque" site="ft_sensor_site"/>
   </sensor>
 
+  <tendon>
+    <fixed name="split">
+      <joint joint="joint_finger_left" coef="0.5"/>
+      <joint joint="joint_finger_right" coef="0.5"/>
+    </fixed>
+  </tendon>
+
+  <equality>
+    <joint joint1="joint_finger_left" joint2="joint_finger_right" solimp="0.95 0.99 0.001" solref="0.005 1"/>
+  </equality>
+
+
    <!-- <actuator>
      <position joint="joint_torso"        kp="40" ctrlrange="-4.49 1.35" forcerange="-150 150"/>
      <position joint="joint_shoulder"     kp="40" ctrlrange="-2.66 3.18" forcerange="-150 150"/>

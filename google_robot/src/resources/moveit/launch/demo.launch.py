@@ -59,24 +59,24 @@ def generate_launch_description():
     )
 
     # Static TF
-    world2robot_tf_node = Node(
-        package="tf2_ros",
-        executable="static_transform_publisher",
-        name="static_transform_publisher",
-        output="log",
-        arguments=["--frame-id", "world", "--child-frame-id", "base_link"],
-        parameters=[{"use_sim_time": True}]
-    )
-
-    # odom_tf_node = Node(
+    # world2robot_tf_node = Node(
     #     package="tf2_ros",
     #     executable="static_transform_publisher",
-    #     name="odom_to_base_link",
+    #     name="static_transform_publisher",
     #     output="log",
-    #     arguments=["--frame-id", "odom", "--child-frame-id", "base_link"],
-    #     # arguments=["0", "0", "0", "0", "0", "0", "odom", "base_link"],
+    #     arguments=["--frame-id", "world", "--child-frame-id", "base_link"],
     #     parameters=[{"use_sim_time": True}]
     # )
+
+    odom_tf_node = Node(
+        package="tf2_ros",
+        executable="static_transform_publisher",
+        name="odom_to_base_link",
+        output="log",
+        arguments=["--frame-id", "odom", "--child-frame-id", "base_link"],
+        # arguments=["0", "0", "0", "0", "0", "0", "odom", "base_link"],
+        parameters=[{"use_sim_time": True}]
+    )
 
     # Publish TF
     robot_state_publisher = Node(
@@ -128,11 +128,11 @@ def generate_launch_description():
         arguments=["google_hand_controller", "-c", "/controller_manager"],
     )
 
-    # diff_drive_spawner = Node(
-    #     package="controller_manager",
-    #     executable="spawner",
-    #     arguments=["diff_drive_controller", "-c", "/controller_manager"],
-    # )
+    diff_drive_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["diff_drive_controller", "-c", "/controller_manager"],
+    )
 
 
     return LaunchDescription(
@@ -147,7 +147,7 @@ def generate_launch_description():
             RegisterEventHandler(
                 event_handler=OnProcessExit(
                     target_action=joint_state_broadcaster_spawner,
-                    on_exit=[google_arm_controller_spawner, google_hand_controller_spawner]#, diff_drive_spawner],
+                    on_exit=[google_arm_controller_spawner, google_hand_controller_spawner, diff_drive_spawner],
                 )
             ),
             # RegisterEventHandler(
@@ -157,7 +157,7 @@ def generate_launch_description():
             #     )
             # ),
             rviz_node,
-            world2robot_tf_node,
+            odom_tf_node,
             robot_state_publisher,
             move_group_node,
             # joint_state_broadcaster_spawner

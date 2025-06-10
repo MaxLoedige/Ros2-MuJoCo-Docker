@@ -19,6 +19,37 @@
                 </xacro:if>
             </hardware>
 
+            <joint name="joint_left_wheel">
+                <xacro:if value="${ros2_control_hardware_type == 'mujoco'}">
+                  <param name="position_kp">3000</param>
+                  <param name="position_ki">1</param>
+                  <param name="position_kd">100</param>
+                  <param name="position_i_max">10000</param>
+                  <command_interface name="velocity_pid"/>
+                </xacro:if>
+                <xacro:unless value="${ros2_control_hardware_type == 'mujoco'}">
+                  <command_interface name="velocity"/>
+                </xacro:unless>
+                
+                <state_interface name="position"/>
+                <state_interface name="velocity"/>
+            </joint>
+
+            <joint name="joint_right_wheel">
+                <xacro:if value="${ros2_control_hardware_type == 'mujoco'}">
+                  <param name="position_kp">3000</param>
+                  <param name="position_ki">1</param>
+                  <param name="position_kd">100</param>
+                  <param name="position_i_max">10000</param>
+                  <command_interface name="velocity_pid"/>
+                </xacro:if>
+                <xacro:unless value="${ros2_control_hardware_type == 'mujoco'}">
+                  <command_interface name="velocity"/>
+                </xacro:unless>
+
+                <state_interface name="position"/>
+                <state_interface name="velocity"/>
+            </joint>
 
             <joint name="joint_torso">
                 <xacro:if value="${ros2_control_hardware_type == 'mujoco'}">
