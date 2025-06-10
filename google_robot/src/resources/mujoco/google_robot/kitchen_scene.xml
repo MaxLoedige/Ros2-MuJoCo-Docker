@@ -1,5 +1,15 @@
 <mujoco model="robot scene">
 
+  <option
+    timestep="0.005"
+    integrator="implicitfast"
+  >
+    <flag    
+      multiccd="enable"
+      nativeccd="enable"
+    />
+  </option>
+
 
   <statistic center="0 0 0.8" extent="2"/>
 

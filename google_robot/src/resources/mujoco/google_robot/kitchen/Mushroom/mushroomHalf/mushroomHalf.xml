@@ -4,7 +4,7 @@
       <geom group="2" type="mesh" contype="0" conaffinity="0"/>
     </default>
     <default class="collision">
-      <geom group="3" type="mesh"/>
+      <geom group="3" type="mesh" rgba="0 0 1 1"/>
     </default>
   </default>
   <asset>
