@@ -1,15 +1,17 @@
 ARG ROS_DISTRO=humble
-FROM ros:$ROS_DISTRO
+FROM ros:humble
 
 ARG MUJOCO_VERSION=3.2.5
 ARG BRANCH=main
+
+ENV DEBIAN_FRONTEND=noninteractive
 
 WORKDIR /root/workdir
 COPY ./src /root/workdir/src
 
 # TODO currently the ros docker have unsecured repositories, rosdep needs to be called manualy 
-
-RUN apt-get update --allow-insecure-repositories && apt-get upgrade -y --allow-unauthenticated
+# RUN apt-get update --allow-insecure-repositories && apt-get upgrade -y --allow-unauthenticated
+RUN apt-get update && apt-get upgrade -y
 RUN apt-get install -y python3-pip wget
 ENV SHELL /bin/bash
 
@@ -34,8 +36,8 @@ RUN echo 'export MUJOCO_DIR=/root/workdir/mujoco/mujoco-$MUJOCO_VERSION' >> ~/.b
 RUN echo 'source /opt/ros/humble/setup.bash' >> ~/.bashrc
 
 RUN --mount=type=cache,target=/var/cache/apt \
-    apt-get update --allow-insecure-repositories && \
-    apt-get install -y --no-install-recommends --allow-unauthenticated \
+    apt-get update && \
+    apt-get install -y --no-install-recommends\
         bash-completion \
         curl \
         gdb \
@@ -46,11 +48,40 @@ RUN --mount=type=cache,target=/var/cache/apt \
         python3-colcon-common-extensions \
         sudo \
         vim \
+        zlib1g-dev\
+        libgl1-mesa-dev \
+        libgl1-mesa-glx \
+        libglew-dev \
+        libosmesa6-dev \
+        software-properties-common \
+        net-tools \
+        virtualenv \
+        wget \
+        xpra \
+        xserver-xorg-dev \
+        libglfw3 \
+        libglfw3-dev \
+        patchelf \
+        unzip \
+        libxrandr2 \
+        libxrandr-dev\
+        libxinerama1 \
+        libxcursor1 \
+        vim \
+        libxinerama-dev \ 
+        libxcursor-dev \
+        libxi-dev \
+        libtinyxml2-dev \
+        libspdlog-dev\
+        libabsl-dev \
+        libbenchmark-dev libgtest-dev\
+        protobuf-compiler libprotobuf-dev \
+        python3-pip \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-RUN sudo apt-get update --allow-insecure-repositories \
-    && sudo apt-get install -y --no-install-recommends --allow-unauthenticated \
+RUN sudo apt-get update \
+    && sudo apt-get install -y --no-install-recommends\
         ros-dev-tools \
         ros-humble-sdformat-urdf \
         ros-humble-joint-state-publisher-gui \
@@ -84,12 +115,12 @@ RUN sudo apt-get update --allow-insecure-repositories \
     && sudo apt-get clean \
     && sudo rm -rf /var/lib/apt/lists/*
 
-# RUN cd /root/workdir/ \
-#     && sudo apt-get update \
-#     && rosdep fix-permissions \
-#     && rosdep update \
-#     && rosdep install --from-paths src --ignore-src -y \
-#     && sudo apt-get clean \
-#     && sudo rm -rf /var/lib/apt/lists/*
+RUN cd /root/workdir/ \
+    && apt-get update \
+    && rosdep fix-permissions \
+    && rosdep update \
+    && rosdep install --from-paths src --ignore-src -y \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN bash -c "source ~/.bashrc"

@@ -17,6 +17,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libgl1-mesa-glx \
     libglfw3-dev \
     libglew-dev \
+    libabsl-dev libtinyxml2-dev libgtest-dev libbenchmark-dev\
     patchelf \
     unzip -y \
     libxrandr2 \

@@ -1,13 +1,14 @@
 <mujoco model="robot scene">
 
+    <!-- integrator="implicitfast" -->
   <option
-    timestep="0.005"
-    integrator="implicitfast"
+    timestep="0.001"
+    integrator="RK4"
   >
-    <flag    
+    <!-- <flag    
       multiccd="enable"
-      nativeccd="enable"
-    />
+    nativeccd="enable"
+    /> -->
   </option>
 
 
@@ -40,14 +41,14 @@
 
   </asset>
 
-  <!-- <extension>
+  <extension>
     <plugin plugin="mujoco.vrsim.websocket">
       <instance name="websocket">
         <config key="url" value="crisp"/>
         <config key="port" value="11532"/>
       </instance>
     </plugin>
-  </extension> -->
+  </extension>
 
   <!-- <include file="vrsimmodels/MuJoCo/humanoid/assets.xml"/>
   <include file="vrsimmodels/MuJoCo/humanoid/humanoid_0.xml"/>

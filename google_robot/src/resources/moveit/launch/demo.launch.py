@@ -94,6 +94,19 @@ def generate_launch_description():
         "ros2_controllers.yaml",
     )
 
+    # node_mujoco_ros2_control = Node(
+    #     package='mujoco_ros2_control',
+    #     executable='mujoco_ros2_control',
+    #     output='screen',
+    #     parameters=[
+    #         moveit_config.robot_description,
+    #         ros2_controllers_path,
+    #         {'mujoco_model_path':os.path.join(get_package_share_directory('google_robot_mujoco'), 'google_robot', 'kitchen_scene.xml')},
+    #         {"use_sim_time": True}
+    #     ],
+    #     prefix=['xterm -e gdb -ex run --args']
+    # )
+
     node_mujoco_ros2_control = Node(
         package='mujoco_ros2_control',
         executable='mujoco_ros2_control',
@@ -103,7 +116,8 @@ def generate_launch_description():
             ros2_controllers_path,
             {'mujoco_model_path':os.path.join(get_package_share_directory('google_robot_mujoco'), 'google_robot', 'scene.xml')},
             {"use_sim_time": True}
-        ]
+        ],
+        # prefix=['xterm -e gdb -ex run --args']
     )
 
     joint_state_broadcaster_spawner = Node(

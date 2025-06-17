@@ -1,7 +1,7 @@
 <mujoco model="robot">
   <compiler angle="radian" autolimits="true"/>
 
-  <option timestep="0.004" integrator="implicitfast"/>
+  <!-- <option timestep="0.004" integrator="implicitfast"/> -->
 
   <asset>
     <texture type="2d" name="robot_texture" file="assets/robot_texture.png"/>
@@ -84,6 +84,7 @@
   <worldbody>
     <light pos="0 0 3"/>
     <body name="base_link" childclass="robot" pos="0 0 0.06205">
+      <joint type="free" />
       <!-- geom for base -->
       <geom class="visual" mesh="link_base_v"/>
       <geom class="collision" mesh="link_base_0_00"/>
@@ -113,7 +114,7 @@
       <body name="link_left_wheel" pos="0 0.18283 0">
         <inertial pos="0 0 0" mass="0.5" diaginertia="0.0004 0.0004 0.000625"/>
         <!-- <inertial pos="0 0 0" diaginertia="0.0184592 0.0154173 0.0102031" mass="2.46883"/> -->
-        <joint name="joint_left_wheel" type="hinge" axis="0 1 0"/>
+        <joint name="joint_left_wheel" type="hinge" axis="0 1 0" pos="0 0 0" damping="0.2"/>
         
         <geom class="visual" mesh="link_wheel_v"/>
         <geom class="collision" pos="0 0.18283 0" size="0.06035 0.00925" quat="1 1 0 0" type="cylinder"/>
@@ -124,7 +125,7 @@
       <body name="link_right_wheel" pos="0 -0.18283 0">
         <inertial pos="0 0 0" mass="0.5" diaginertia="0.0004 0.0004 0.000625"/>
         <!-- <inertial pos="0 0 0" diaginertia="0.0184592 0.0154173 0.0102031" mass="2.46883"/> -->
-        <joint name="joint_right_wheel" type="hinge" axis="0 1 0"/>
+        <joint name="joint_right_wheel" type="hinge" axis="0 1 0" pos="0 0 0" damping="0.2"/>
 
         <geom class="visual" mesh="link_wheel_v"/>
         <!-- <geom class="collision" mesh="link_wheel_v"/> -->
