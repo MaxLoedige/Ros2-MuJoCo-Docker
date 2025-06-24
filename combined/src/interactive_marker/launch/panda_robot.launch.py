@@ -1,6 +1,3 @@
-# from moveit_configs_utils import MoveItConfigsBuilder
-# from moveit_configs_utils.launches import generate_demo_launch
-
 import os
 from launch import LaunchDescription
 from launch_ros.actions import Node
@@ -9,23 +6,21 @@ from launch.event_handlers import OnProcessStart, OnProcessExit
 from ament_index_python.packages import get_package_share_directory
 from moveit_configs_utils import MoveItConfigsBuilder
 
-
 def generate_launch_description():
-    moveit_config = (MoveItConfigsBuilder("google_robot", package_name="google_robot_moveit")
+
+    moveit_config = (
+        MoveItConfigsBuilder("moveit_resources_panda")
         .robot_description(
-            file_path="config/google_robot.urdf.xacro",
+            file_path="config/panda.urdf.xacro",
             mappings={
                 "ros2_control_hardware_type": "mujoco"
             },
         )
-        .robot_description_semantic(file_path="config/google_robot.srdf")
-        .trajectory_execution(file_path="config/moveit_controllers.yaml")
+        .robot_description_semantic(file_path="config/panda.srdf")
+        .trajectory_execution(file_path="config/gripper_moveit_controllers.yaml")
         .planning_pipelines(pipelines=["ompl", "pilz_industrial_motion_planner"])
         .to_moveit_configs()
     )
-
-    # print(tmp.to_moveit_configs())
-    # moveit_config = tmp.to_moveit_configs()
 
     # Start the actual move_group node/action server
     move_group_node = Node(
@@ -37,9 +32,9 @@ def generate_launch_description():
 
     # RViz
     rviz_config_file = os.path.join(
-        get_package_share_directory("google_robot_moveit"),
+        get_package_share_directory("interactive_marker"),
         "config",
-        "moveit.rviz",
+        "interactive_marker.rviz",
     )
 
     rviz_node = Node(
@@ -59,22 +54,12 @@ def generate_launch_description():
     )
 
     # Static TF
-    # world2robot_tf_node = Node(
-    #     package="tf2_ros",
-    #     executable="static_transform_publisher",
-    #     name="static_transform_publisher",
-    #     output="log",
-    #     arguments=["--frame-id", "world", "--child-frame-id", "base_link"],
-    #     parameters=[{"use_sim_time": True}]
-    # )
-
-    odom_tf_node = Node(
+    world2robot_tf_node = Node(
         package="tf2_ros",
         executable="static_transform_publisher",
-        name="odom_to_base_link",
+        name="static_transform_publisher",
         output="log",
-        arguments=["--frame-id", "odom", "--child-frame-id", "base_link"],
-        # arguments=["0", "0", "0", "0", "0", "0", "odom", "base_link"],
+        arguments=["--frame-id", "world", "--child-frame-id", "panda_link0"],
         parameters=[{"use_sim_time": True}]
     )
 
@@ -89,7 +74,7 @@ def generate_launch_description():
 
     # ros2_control using FakeSystem as hardware
     ros2_controllers_path = os.path.join(
-        get_package_share_directory("google_robot_moveit"),
+        get_package_share_directory("moveit_resources_panda_moveit_config"),
         "config",
         "ros2_controllers.yaml",
     )
@@ -101,10 +86,9 @@ def generate_launch_description():
         parameters=[
             moveit_config.robot_description,
             ros2_controllers_path,
-            {'mujoco_model_path':os.path.join(get_package_share_directory('google_robot_mujoco'), 'google_robot', 'kitchen_scene.xml')},
+            {'mujoco_model_path':os.path.join(get_package_share_directory('mujoco_world'), 'worlds', 'panda_robot_scene.xml')},
             {"use_sim_time": True}
-        ],
-        # prefix=['xterm -e gdb -ex run --args']
+        ]
     )
 
     joint_state_broadcaster_spawner = Node(
@@ -117,24 +101,24 @@ def generate_launch_description():
         ],
     )
 
-    google_arm_controller_spawner = Node(
+    panda_arm_controller_spawner = Node(
         package="controller_manager",
         executable="spawner",
-        arguments=["google_arm_controller", "-c", "/controller_manager"],
+        arguments=["panda_arm_controller", "-c", "/controller_manager"],
     )
 
-    google_hand_controller_spawner = Node(
+    panda_hand_controller_spawner = Node(
         package="controller_manager",
         executable="spawner",
-        arguments=["google_hand_controller", "-c", "/controller_manager"],
+        arguments=["panda_hand_controller", "-c", "/controller_manager"],
     )
-
-    diff_drive_spawner = Node(
+    # Without spawning admittance controller, panda arm controller is not working.
+    # Admittance controller is disabled in default, so it shouldn't apply until enabled.
+    admittance_controller_spawner = Node(
         package="controller_manager",
         executable="spawner",
-        arguments=["diff_drive_controller", "-c", "/controller_manager"],
+        arguments=["admittance_controller", "-c", "/controller_manager"],
     )
-
 
     return LaunchDescription(
         [
@@ -144,26 +128,22 @@ def generate_launch_description():
                     on_start=[joint_state_broadcaster_spawner],
                 )
             ),
-            # admittance_controller_spawner
             RegisterEventHandler(
                 event_handler=OnProcessExit(
                     target_action=joint_state_broadcaster_spawner,
-                    on_exit=[google_arm_controller_spawner, google_hand_controller_spawner, diff_drive_spawner],
+                    on_exit=[admittance_controller_spawner,panda_hand_controller_spawner],
                 )
             ),
-            # RegisterEventHandler(
-            #     event_handler=OnProcessExit(
-            #         target_action=admittance_controller_spawner,
-            #         on_exit=[google_arm_controller_spawner],
-            #     )
-            # ),
+            RegisterEventHandler(
+                event_handler=OnProcessExit(
+                    target_action=admittance_controller_spawner,
+                    on_exit=[panda_arm_controller_spawner],
+                )
+            ),
             rviz_node,
-            odom_tf_node,
+            world2robot_tf_node,
             robot_state_publisher,
             move_group_node,
-            # joint_state_broadcaster_spawner
             node_mujoco_ros2_control
         ]
     )
-
-    # return generate_demo_launch(moveit_config)

@@ -1,0 +1,56 @@
+<mujoco model="pan">
+  <default>
+    <default class="visual">
+      <geom group="2" type="mesh" contype="0" conaffinity="0"/>
+    </default>
+    <default class="collision">
+      <geom group="3" type="mesh" rgba="0 0 1 1"/>
+    </default>
+  </default>
+
+  <asset>
+    <material name="Material.001" specular="0.5" shininess="0.25" rgba="0.037212 0.037212 0.037212 1.000000"/>
+    <material name="Material.002" specular="0.5" shininess="0.0" rgba="0.495375 0.143644 0.066458 1.000000"/>
+    <material name="Material.003" specular="0.5" shininess="0.25" rgba="0.800000 0.800000 0.800000 1.000000"/>
+    <mesh file="pan_0.obj"/>
+    <mesh file="pan_1.obj"/>
+    <mesh file="pan_2.obj"/>
+
+    <!-- <mesh name="pan_collision" file="pan_0.obj">
+      <plugin instance="sdf"/>
+    </mesh> -->
+
+  </asset>
+  <worldbody>
+    <body name="pan">
+      <geom mesh="pan_0" material="Material.001" class="visual"/>
+      <geom mesh="pan_1" material="Material.003" class="visual"/>
+      <geom mesh="pan_2" material="Material.002" class="visual"/>
+      
+      <geom type="cylinder" pos="0 -0.2 0.022" size="0.01 0.09" quat="0.77 0.62 0 0" class="collision"/>
+    
+      <geom type="cylinder" size="0.1 0.0025" pos="0 0 -0.0175" class="collision"/>
+
+
+      <body name="hollow_cylinder" pos="0 0 0.01">
+        <geom type="box" size="0.0025 0.0218 0.0225" pos="0.1070 0.0000 -0.0112" quat="0.965926 0.000000 0.258819 0.000000" class="collision"/>
+        <geom type="box" size="0.0025 0.0218 0.0225" pos="0.0988 0.0409 -0.0112" quat="0.947366 -0.050493 0.253846 0.188443" class="collision"/>
+        <geom type="box" size="0.0025 0.0218 0.0225" pos="0.0757 0.0757 -0.0112" quat="0.892399 -0.099046 0.239118 0.369644" class="collision"/>
+        <geom type="box" size="0.0025 0.0218 0.0225" pos="0.0409 0.0988 -0.0112" quat="0.803138 -0.143792 0.215200 0.536640" class="collision"/>
+        <geom type="box" size="0.0025 0.0218 0.0225" pos="0.0000 0.1070 -0.0112" quat="0.683013 -0.183013 0.183013 0.683013" class="collision"/>
+        <geom type="box" size="0.0025 0.0218 0.0225" pos="-0.0409 0.0988 -0.0112" quat="0.536640 -0.215200 0.143792 0.803138" class="collision"/>
+        <geom type="box" size="0.0025 0.0218 0.0225" pos="-0.0757 0.0757 -0.0112" quat="0.369644 -0.239118 0.099046 0.892399" class="collision"/>
+        <geom type="box" size="0.0025 0.0218 0.0225" pos="-0.0988 0.0409 -0.0112" quat="0.188443 -0.253846 0.050493 0.947366" class="collision"/>
+        <geom type="box" size="0.0025 0.0218 0.0225" pos="-0.1070 0.0000 -0.0112" quat="0.000000 -0.258819 0.000000 0.965926" class="collision"/>
+        <geom type="box" size="0.0025 0.0218 0.0225" pos="-0.0988 -0.0409 -0.0112" quat="-0.188443 -0.253846 -0.050493 0.947366" class="collision"/>
+        <geom type="box" size="0.0025 0.0218 0.0225" pos="-0.0757 -0.0757 -0.0112" quat="-0.369644 -0.239118 -0.099046 0.892399" class="collision"/>
+        <geom type="box" size="0.0025 0.0218 0.0225" pos="-0.0409 -0.0988 -0.0112" quat="-0.536640 -0.215200 -0.143792 0.803138" class="collision"/>
+        <geom type="box" size="0.0025 0.0218 0.0225" pos="-0.0000 -0.1070 -0.0112" quat="-0.683013 -0.183013 -0.183013 0.683013" class="collision"/>
+        <geom type="box" size="0.0025 0.0218 0.0225" pos="0.0409 -0.0988 -0.0112" quat="-0.803138 -0.143792 -0.215200 0.536640" class="collision"/>
+        <geom type="box" size="0.0025 0.0218 0.0225" pos="0.0757 -0.0757 -0.0112" quat="-0.892399 -0.099046 -0.239118 0.369644" class="collision"/>
+        <geom type="box" size="0.0025 0.0218 0.0225" pos="0.0988 -0.0409 -0.0112" quat="-0.947366 -0.050493 -0.253846 0.188443" class="collision"/>
+      </body>
+
+    </body>
+  </worldbody>
+</mujoco>

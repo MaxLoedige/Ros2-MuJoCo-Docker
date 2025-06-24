@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<mujoco model="mujoco_panda_model">
+
+    <!-- <include file="other/simple_scene.xml"/> -->
+    <include file="panda/assets.xml"/>
+    <compiler meshdir=""/>
+
+    <option cone="elliptic">
+        <flag gravity="enable"/>
+    </option>
+
+    <!-- <worldbody>
+        <include file="panda/arm_with_gripper.xml"/>
+    </worldbody> -->
+
+    <tendon>
+        <fixed name="split">
+        <joint joint="panda_finger_joint1" coef="0.5"/>
+        <joint joint="panda_finger_joint2" coef="0.5"/>
+        </fixed>
+    </tendon>
+
+    <actuator>
+        <!-- <include file="panda/actuators/torque_with_gripper.xml"/> -->
+        <general class="panda" name="actuator8" tendon="split" forcerange="-100 100" ctrlrange="0 255"
+        gainprm="0.01568627451 0 0" biasprm="0 -100 -10"/>
+    </actuator>
+
+    <equality>
+        <joint joint1="panda_finger_joint1" joint2="panda_finger_joint2" solimp="0.95 0.99 0.001" solref="0.005 1"/>
+    </equality>
+
+    <sensor>
+        <force name="ft_sensor_force" site="ft_sensor_site"/>
+        <torque name="ft_sensor_torque" site="ft_sensor_site"/>
+        <!-- <include file="panda/sensors/ft_sensor.xml" /> -->
+    </sensor>
+
+</mujoco>

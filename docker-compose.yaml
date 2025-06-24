@@ -2,14 +2,14 @@ version: '3.8'
 
 services:
 
-  ros-mujoco-google:
+  ros-mujoco:
     build:
-      dockerfile: google_robot/Dockerfile
+      dockerfile: combined/Dockerfile
       context: ./
     # networks:
     #   - ros
     
-    container_name: ros-mujoco-google
+    container_name: ros-mujoco
     stdin_open: true # docker run -i
     tty: true # docker run -t 
     privileged: true
@@ -26,7 +26,7 @@ services:
       - /run/desktop/mnt/host/wslg:/mnt/wslg
 
       - './src/mujoco_ros2_control:/root/workdir/src/mujoco_ros2_control'
-      - './google_robot/src/:/root/workdir/src/'
+      - './combined/src/:/root/workdir/src/'
 
   # ros-mujoco-franka:
   #   build:

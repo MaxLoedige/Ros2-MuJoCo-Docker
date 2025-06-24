@@ -101,7 +101,7 @@ def generate_launch_description():
         parameters=[
             moveit_config.robot_description,
             ros2_controllers_path,
-            {'mujoco_model_path':os.path.join(get_package_share_directory('google_robot_mujoco'), 'google_robot', 'kitchen_scene.xml')},
+            {'mujoco_model_path':os.path.join(get_package_share_directory('mujoco_world'), 'worlds', 'google_robot_scene.xml')},
             {"use_sim_time": True}
         ],
         # prefix=['xterm -e gdb -ex run --args']
