@@ -41,21 +41,25 @@
 
   </asset>
 
-  <extension>
+  <!-- <extension>
     <plugin plugin="mujoco.vrsim.websocket">
       <instance name="websocket">
         <config key="url" value="crisp"/>
         <config key="port" value="11532"/>
       </instance>
     </plugin>
-  </extension>
+  </extension> -->
 
 
-  <include file="google_robot/robot.xml"/>
+  <include file="franka_emika_panda/franka_panda.xml"/>
 
   <worldbody>
     <light pos="1 -1 1.5" dir="-1 1 -1" diffuse="0.5 0.5 0.5" directional="true"/>
     <geom name="floor" size="0 0 0.05" type="plane" material="groundplane"/>
+
+    <body name="franka_emika_panda" pos="0.55 1.1 1.02">
+      <include file="franka_emika_panda/panda/arm_with_gripper.xml"/>
+    </body>
 
     <body name="Kitchen" pos="0 0.5 0">
       <attach model="Counters" body="Counters" prefix="Kitchen_Counters_"/>

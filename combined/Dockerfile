@@ -6,11 +6,15 @@ ARG BRANCH=main
 
 ENV DEBIAN_FRONTEND=noninteractive
 
+RUN rm /etc/apt/sources.list.d/ros2-latest.list && \
+    apt update -y && apt install curl -y && \
+    curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg && \
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
 
 WORKDIR /root/workdir
 
-COPY src /root/workdir/src
-COPY combined/src /root/workdir/src
+#
+#COPY combined/src /root/workdir/src
 
 
 RUN apt-get update && apt-get upgrade -y
@@ -95,6 +99,9 @@ RUN --mount=type=cache,target=/var/cache/apt \
         ros-humble-xacro \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+
+COPY src /root/workdir/src
+COPY combined/src /root/workdir/src
 
 RUN cd /root/workdir/ \
     && apt-get update \
