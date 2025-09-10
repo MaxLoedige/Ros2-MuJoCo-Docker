@@ -1,6 +1,3 @@
-[submodule "src/mujoco_ros2_control"]
-	path = src/mujoco_ros2_control
-	url = https://github.com/moveit/mujoco_ros2_control.git
 [submodule "franka/src/mujoco_ros2_control_examples"]
 	path = franka/src/mujoco_ros2_control_examples
 	url = https://github.com/moveit/mujoco_ros2_control_examples.git
