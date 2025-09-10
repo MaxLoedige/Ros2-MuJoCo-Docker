@@ -1,7 +1,7 @@
 ARG ROS_DISTRO=humble
 FROM ros:$ROS_DISTRO
 
-ARG MUJOCO_VERSION=3.2.5
+ARG MUJOCO_VERSION=3.3.2
 ARG BRANCH=main
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -9,8 +9,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 WORKDIR /root/workdir
 
-COPY src /root/workdir/src
-COPY combined/src /root/workdir/src
+COPY src /root/workdir/ros/src
+COPY combined/src /root/workdir/ros/src
 
 
 RUN apt-get update && apt-get upgrade -y
@@ -41,7 +41,7 @@ RUN pip3 install xacro
 # install mujoco
 ENV MUJOCO_VERSION $MUJOCO_VERSION
 # RUN apt-get install -y libglfw3-dev
-# RUN wget https://github.com/google-deepmind/mujoco/releases/download/3.2.5/mujoco-3.2.5-linux-x86_64.tar.gz
+# RUN wget https://github.com/google-deepmind/mujoco/releases/download/3.3.2/mujoco-3.3.2-linux-x86_64.tar.gz
 RUN wget https://github.com/google-deepmind/mujoco/releases/download/$MUJOCO_VERSION/mujoco-$MUJOCO_VERSION-linux-x86_64.tar.gz
 RUN mkdir -p /root/workdir/mujoco
 RUN tar -xzf mujoco-$MUJOCO_VERSION-linux-x86_64.tar.gz -C "/root/workdir/mujoco"
@@ -96,7 +96,7 @@ RUN --mount=type=cache,target=/var/cache/apt \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-RUN cd /root/workdir/ \
+RUN cd /root/workdir/ros \
     && apt-get update \
     && rosdep fix-permissions \
     && rosdep update \

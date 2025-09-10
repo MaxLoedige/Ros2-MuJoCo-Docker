@@ -19,6 +19,9 @@ def generate_launch_description():
         .robot_description_semantic(file_path="config/panda.srdf")
         .trajectory_execution(file_path="config/gripper_moveit_controllers.yaml")
         .planning_pipelines(pipelines=["ompl", "pilz_industrial_motion_planner"])
+        .planning_scene_monitor(
+            publish_robot_description_semantic=True
+        )        
         .to_moveit_configs()
     )
 
@@ -119,6 +122,16 @@ def generate_launch_description():
         executable="spawner",
         arguments=["admittance_controller", "-c", "/controller_manager"],
     )
+
+    # semantic_publisher = Node(
+    #     package='std_msgs',
+    #     executable='relay',
+    #     name='semantic_param_relay',
+    #     arguments=['/robot_description_semantic', 'std_msgs/String'],
+    #     parameters=[{
+    #         'data': moveit_config.robot_description_semantic['robot_description_semantic']
+    #     }]
+    # )
 
     return LaunchDescription(
         [

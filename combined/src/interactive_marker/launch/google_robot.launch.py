@@ -21,6 +21,9 @@ def generate_launch_description():
         .robot_description_semantic(file_path="config/google_robot.srdf")
         .trajectory_execution(file_path="config/moveit_controllers.yaml")
         .planning_pipelines(pipelines=["ompl", "pilz_industrial_motion_planner"])
+        .planning_scene_monitor(
+            publish_robot_description_semantic=True
+        )       
         .to_moveit_configs()
     )
 

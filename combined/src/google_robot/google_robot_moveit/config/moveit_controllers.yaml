@@ -9,7 +9,7 @@ moveit_controller_manager: moveit_simple_controller_manager/MoveItSimpleControll
 moveit_simple_controller_manager:
   controller_names:
     - google_arm_controller
-    # - google_hand_controller
+    - google_hand_controller
 
   google_arm_controller:
     type: FollowJointTrajectory
@@ -24,9 +24,8 @@ moveit_simple_controller_manager:
     action_ns: follow_joint_trajectory
     default: true
 
-  # google_hand_controller:
-  #   action_ns: gripper_cmd
-  #   type: GripperCommand
-  #   joints:
-  #     - joint_finger_left
-  #     - joint_finger_right
+  google_hand_controller:
+    action_ns: gripper_cmd
+    type: GripperCommand
+    joints:
+      - joint_finger_left
