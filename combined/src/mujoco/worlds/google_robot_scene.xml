@@ -26,14 +26,14 @@
 
   </asset>
 
-  <!-- <extension>
+  <extension>
     <plugin plugin="mujoco.vrsim.websocket">
       <instance name="websocket">
         <config key="url" value="crisp"/>
         <config key="port" value="11532"/>
       </instance>
     </plugin>
-  </extension> -->
+  </extension>
 
 
   <include file="google_robot/robot.xml"/>
