@@ -69,7 +69,7 @@
                                     <geom class="visual" mesh="link7_visual"/>
                                     <geom class="collision" mesh="link7_collision"/>
 
-                                    <site name='ft_sensor_site' pos='0 0 0.107' euler='0 0 -1.57'/>
+                                    <site name='fts_sensor_site' pos='0 0 0.107' euler='0 0 -1.57'/>
                                     <include file="gripper.xml"/>
                                 </body>
                             </body>

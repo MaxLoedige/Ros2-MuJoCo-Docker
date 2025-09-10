@@ -346,6 +346,8 @@ void MujocoSystem::register_sensors(
     std::string sensor_name = sensor.name;
     sensor_name = sensor_name.substr(0, sensor_name.rfind('_'));
 
+    // RCLCPP_INFO_STREAM(node->get_logger(), "Sensor: " + sensor_name);
+
     if (sensor.name.find("_fts") != std::string::npos)
     {
       FTSensorData sensor_data;

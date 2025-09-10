@@ -31,9 +31,8 @@
     </equality>
 
     <sensor>
-        <force name="ft_sensor_force" site="ft_sensor_site"/>
-        <torque name="ft_sensor_torque" site="ft_sensor_site"/>
-        <!-- <include file="panda/sensors/ft_sensor.xml" /> -->
+      <force name="sensor_force" site="fts_sensor_site"/>
+      <torque name="sensor_torque" site="fts_sensor_site"/>
     </sensor>
 
 </mujoco>

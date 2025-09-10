@@ -21,15 +21,10 @@
   </visual>
 
   <asset>
-<<<<<<< HEAD
 
     <model name="LeftHand" file="vrsimmodels/LeftHand/interaction.xml"/>
     <model name="RightHand" file="vrsimmodels/RightHand/interaction.xml"/>
 
-=======
-    <model name="LeftHand" file="vrsimmodels/LeftHand/interaction.xml"/>
-    <model name="RightHand" file="vrsimmodels/RightHand/interaction.xml"/>
->>>>>>> b73d9b8d35e3bf8ca26f3b9ee536f8b00c2e16ac
   </asset>
 
   <extension>
@@ -45,8 +40,6 @@
   <include file="vrsimmodels/humanoid/humanoid_0.xml"/>
   <include file="vrsimmodels/RightHand/model_0.xml"/>
   <include file="vrsimmodels/LeftHand/model_0.xml"/>
-
-  <include file="scenario/world.xml"/>
 
   <include file="franka_emika_panda/franka_panda.xml"/>
 

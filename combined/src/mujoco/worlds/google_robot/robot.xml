@@ -165,7 +165,7 @@
                 <geom class="visual" mesh="link_forearm_v"/>
                 <geom class="collision" mesh="link_forearm" mass="0.819369"/>
                 <body name="link_wrist" pos="0 -0.00604 0.2735" gravcomp="1">
-                  <site name="ft_sensor_site" pos="0 0 0"/>
+                  <site name="fts_sensor_site" pos="0 0 0"/>
                   <site name="wrist" pos="0 0 0.14"/>
                   <joint name="joint_wrist" axis="0 1 0" range="-1.79 1.79"/>
                   <geom class="visual" mesh="link_wrist_v"/>
@@ -223,8 +223,8 @@
   </worldbody>
 
   <sensor>
-    <force name="ft_sensor_force" site="ft_sensor_site"/>
-    <torque name="ft_sensor_torque" site="ft_sensor_site"/>
+    <force name="sensor_force" site="fts_sensor_site"/>
+    <torque name="sensor_torque" site="fts_sensor_site"/>
   </sensor>
 
   <tendon>
