@@ -50,7 +50,7 @@ RUN --mount=type=cache,target=/var/cache/apt \
         vim \
         zlib1g-dev\
         libgl1-mesa-dev \
-        libgl1-mesa-glx \
+        # libgl1-mesa-glx \
         libglew-dev \
         libosmesa6-dev \
         software-properties-common \

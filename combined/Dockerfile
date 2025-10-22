@@ -6,21 +6,22 @@ ARG BRANCH=main
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN rm /etc/apt/sources.list.d/ros2-latest.list && \
-    apt update -y && apt install curl -y && \
-    curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg && \
-    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
+# RUN rm /etc/apt/sources.list.d/ros2-latest.list && \
+#     apt update -y && apt install curl -y && \
+#     curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg && \
+#     echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
 
 WORKDIR /root/workdir
 
 COPY src /root/workdir/ros/src
 COPY combined/src /root/workdir/ros/src
+COPY combined/build.sh /root/workdir/build.sh
 
 
 RUN apt-get update && apt-get upgrade -y
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libosmesa6-dev \
-    libgl1-mesa-glx \
+    # libgl1-mesa-glx \
     libglfw3-dev \
     libglew-dev \
     libabsl-dev libtinyxml2-dev libgtest-dev libbenchmark-dev\

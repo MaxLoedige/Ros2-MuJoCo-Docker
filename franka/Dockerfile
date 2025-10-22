@@ -14,7 +14,7 @@ COPY ./demos/Ros2-MuJoCo-Docker/franka/src/franka_ros2 /root/workdir/src/franka_
 RUN apt-get update && apt-get upgrade -y
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libosmesa6-dev \
-    libgl1-mesa-glx \
+    # libgl1-mesa-glx \
     libglfw3-dev \
     libglew-dev \
     libabsl-dev libtinyxml2-dev libgtest-dev libbenchmark-dev\
