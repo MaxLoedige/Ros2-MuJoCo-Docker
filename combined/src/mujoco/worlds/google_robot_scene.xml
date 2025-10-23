@@ -21,9 +21,8 @@
   </visual>
 
   <asset>
-    <!-- <model name="LeftHand" file="models/MuJoCo/LeftHand/interaction.xml"/>
-    <model name="RightHand" file="models/MuJoCo/RightHand/interaction.xml"/> -->
-
+    <model name="LeftHand" file="vrsimmodels/LeftHand/interaction.xml"/>
+    <model name="RightHand" file="vrsimmodels/RightHand/interaction.xml"/>
   </asset>
 
   <extension>
@@ -36,14 +35,31 @@
   </extension>
 
 
+  <include file="vrsimmodels/humanoid/assets.xml"/>
+  <include file="vrsimmodels/humanoid/humanoid_0.xml"/>
+  <include file="vrsimmodels/RightHand/model_0.xml"/>
+  <include file="vrsimmodels/LeftHand/model_0.xml"/>
+
   <include file="google_robot/robot.xml"/>
 
   <include file="scenario/world.xml"/>
 
   <worldbody>
 
-  <geom type="box" size="0.7 1.5 0.3" pos="2.2 -0.5 0.1"/>
+    <geom type="box" size="0.7 1.5 0.3" pos="2.2 -0.5 0.1"/>
+
+    <attach model="LeftHand" body="controller_left_mocap" prefix="vrsim_0_"/>
+    <attach model="LeftHand" body="controller_left_collision" prefix="vrsim_0_"/>
+
+    <attach model="RightHand" body="controller_right_mocap" prefix="vrsim_0_"/>
+    <attach model="RightHand" body="controller_right_collision" prefix="vrsim_0_"/>
+
 
   </worldbody>
+
+  <equality>
+    <weld name="vrsim_0_hand_left"   body1="vrsim_0_controller_left_mocap" body2= "vrsim_0_controller_left_collision" torquescale="500"/>
+    <weld name="vrsim_0_hand_right"   body1="vrsim_0_controller_right_mocap" body2= "vrsim_0_controller_right_collision" torquescale="500"/>
+  </equality>
 
 </mujoco>
