@@ -1,43 +1,66 @@
 ARG ROS_DISTRO=humble
-FROM ros:humble
+FROM ros:$ROS_DISTRO
 
 ARG MUJOCO_VERSION=3.3.2
 ARG BRANCH=main
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-WORKDIR /root/workdir
-COPY ./src /root/workdir/src
+# RUN rm /etc/apt/sources.list.d/ros2-latest.list && \
+#     apt update -y && apt install curl -y && \
+#     curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg && \
+#     echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
 
-# TODO currently the ros docker have unsecured repositories, rosdep needs to be called manualy 
-# RUN apt-get update --allow-insecure-repositories && apt-get upgrade -y --allow-unauthenticated
+WORKDIR /root/workdir
+
+COPY src /root/workdir/ros/src
+# COPY combined/src /root/workdir/ros/src
+# COPY combined/build.sh /root/workdir/build.sh
+
+
 RUN apt-get update && apt-get upgrade -y
-RUN apt-get install -y python3-pip wget
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libosmesa6-dev \
+    # libgl1-mesa-glx \
+    libglfw3-dev \
+    libglew-dev \
+    libabsl-dev libtinyxml2-dev libgtest-dev libbenchmark-dev\
+    patchelf \
+    unzip -y \
+    libxrandr2 \
+    libxrandr-dev\
+    libxinerama1 \
+    libxcursor1 \
+    wget \
+    libxinerama-dev \ 
+    libxcursor-dev \
+    libxi-dev \
+    protobuf-compiler libprotobuf-dev \
+	python3-pip \
+    && rm -rf /var/lib/apt/lists/*
+
 ENV SHELL /bin/bash
 
 RUN pip3 install xacro
 
 # install mujoco
 ENV MUJOCO_VERSION $MUJOCO_VERSION
-RUN apt-get install -y libglfw3-dev
-# RUN wget https://github.com/google-deepmind/mujoco/releases/download/3.2.5/mujoco-3.2.5-linux-x86_64.tar.gz
+# RUN apt-get install -y libglfw3-dev
+# RUN wget https://github.com/google-deepmind/mujoco/releases/download/3.3.2/mujoco-3.3.2-linux-x86_64.tar.gz
 RUN wget https://github.com/google-deepmind/mujoco/releases/download/$MUJOCO_VERSION/mujoco-$MUJOCO_VERSION-linux-x86_64.tar.gz
-# RUN wget https://github.com/google-deepmind/mujoco/releases/download/$MUJOCO_VERSION/mujoco-$MUJOCO_VERSION-linux-x86_64.tar.gz
 RUN mkdir -p /root/workdir/mujoco
 RUN tar -xzf mujoco-$MUJOCO_VERSION-linux-x86_64.tar.gz -C "/root/workdir/mujoco"
 
-# && git clone -b $BRANCH https://github.com/moveit/mujoco_ros2_control.git \
-# RUN cd /root/workdir/ \
-#     && rosdep fix-permissions
-# RUN rosdep update
-# RUN rosdep install --from-paths src --ignore-src -y
 
 RUN echo 'export MUJOCO_DIR=/root/workdir/mujoco/mujoco-$MUJOCO_VERSION' >> ~/.bashrc
 RUN echo 'source /opt/ros/humble/setup.bash' >> ~/.bashrc
 
+## === Installing Franka === ##
+
+# Install essential packages and ROS development tools
 RUN --mount=type=cache,target=/var/cache/apt \
     apt-get update && \
-    apt-get install -y --no-install-recommends\
+    apt-get install -y --no-install-recommends \
         bash-completion \
         curl \
         gdb \
@@ -48,41 +71,9 @@ RUN --mount=type=cache,target=/var/cache/apt \
         python3-colcon-common-extensions \
         sudo \
         vim \
-        zlib1g-dev\
-        libgl1-mesa-dev \
-        # libgl1-mesa-glx \
-        libglew-dev \
-        libosmesa6-dev \
-        software-properties-common \
-        net-tools \
-        virtualenv \
-        wget \
-        xpra \
-        xserver-xorg-dev \
-        libglfw3 \
-        libglfw3-dev \
-        patchelf \
-        unzip \
-        libxrandr2 \
-        libxrandr-dev\
-        libxinerama1 \
-        libxcursor1 \
-        vim \
-        libxinerama-dev \ 
-        libxcursor-dev \
-        libxi-dev \
-        libtinyxml2-dev \
-        libspdlog-dev\
-        libabsl-dev \
-        libbenchmark-dev libgtest-dev\
-        protobuf-compiler libprotobuf-dev \
-        python3-pip \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN sudo apt-get update \
-    && sudo apt-get install -y --no-install-recommends\
         ros-dev-tools \
+        ros-humble-franka-description \
+        ros-humble-libfranka \
         ros-humble-sdformat-urdf \
         ros-humble-joint-state-publisher-gui \
         ros-humble-ros2controlcli \
@@ -99,7 +90,6 @@ RUN sudo apt-get update \
         ros-humble-realtime-tools \
         ros-humble-joint-state-publisher \
         ros-humble-joint-state-broadcaster \
-        ros-humble-moveit \
         ros-humble-moveit-ros-move-group \
         ros-humble-moveit-kinematics \
         ros-humble-moveit-planners-ompl \
@@ -108,19 +98,18 @@ RUN sudo apt-get update \
         ros-humble-moveit-simple-controller-manager \
         ros-humble-rviz2 \
         ros-humble-xacro \
-        ros-humble-position-controllers \
-        ros-humble-gripper-controllers \
-        ros-humble-diff-drive-controller \
-        ros-humble-warehouse-ros\
-    && sudo apt-get clean \
-    && sudo rm -rf /var/lib/apt/lists/*
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN cd /root/workdir/ \
+RUN cd /root/workdir/ros \
     && apt-get update \
     && rosdep fix-permissions \
     && rosdep update \
     && rosdep install --from-paths src --ignore-src -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+
+RUN apt-get upgrade
+
 
 RUN bash -c "source ~/.bashrc"
